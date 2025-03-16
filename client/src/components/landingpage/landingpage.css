@@ -1,0 +1,200 @@
+/* ===========================
+  Reset and base styles
+=========================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+}
+
+/* ===========================
+  Container styles
+=========================== */
+.container {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* ===========================
+  Header styles
+=========================== */
+.header {
+  position: fixed;
+  top: 1.5rem;
+  left: 2rem;
+  z-index: 100;
+  animation: slide-down 0.8s ease-out forwards;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 0.75rem 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  width: 50px;
+  height: auto;
+}
+
+.header h1 {
+  color: #ffd700;
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+/* ===========================
+  Main content styles
+=========================== */
+.content {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===========================
+  Typing effect
+=========================== */
+.show-text {
+  color: #fff;
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin-bottom: 3rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  border-right: 3px solid #ffd700;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  animation: typing 1.5s steps(30, end) forwards, blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: #ffd700; }
+}
+
+/* ✅ Responsive Typing Effect */
+@media (max-width: 768px) {
+  .show-text {
+    font-size: 2.5rem;
+    max-width: 90vw;
+    border-right: 2px solid #ffd700;
+  }
+
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 90vw; }
+  }
+}
+
+@media (max-width: 480px) {
+  .show-text {
+    font-size: 2rem;
+    max-width: 85vw;
+    border-right: 2px solid #ffd700;
+  }
+
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 85vw; }
+  }
+}
+
+/* ===========================
+  Buttons
+=========================== */
+.buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+}
+
+.btn {
+  padding: 0.75rem 1.25rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  width: 320px;
+  border: none;
+  border-radius: 0.75rem;
+  color: white;
+  background-color: #4f46e5;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: #4338ca;
+  transform: translateY(-3px);
+}
+
+.login {
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+}
+
+.signup {
+  background: linear-gradient(135deg, #ff8c00, #ff4500);
+}
+
+/* ✅ Appear after typing animation */
+.typing-done {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+/* ===========================
+  Responsive Design
+=========================== */
+@media (max-width: 640px) {
+  .show-text {
+    font-size: 2rem;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,283 @@
+/* General styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f9fafb;
+    color: #1f2937;
+  }
+  
+  /* Classroom container */
+  .classroom-container {
+    padding: 2rem;
+    background-color: #f9fafb;
+  }
+  
+  /* Top section */
+  .top-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .classroom-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .classroom-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .room-title {
+    font-size: 2rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+  }
+  
+  .room-description {
+    color: #6b7280;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .features span {
+    display: block;
+    color: #4b5563;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+  /* Back Button */
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: transparent;
+  color: #2563eb;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  margin-bottom: 16px; /* ✅ Add space below the button */
+}
+
+.back-btn:hover {
+  color: #1e40af;
+}
+
+  
+  /* Bottom section */
+  .bottom-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  
+  /* Booking table container */
+  .booking-table-container {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th,
+  td {
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  th {
+    background-color: #f3f4f6;
+    font-weight: 600;
+  }
+  
+  td {
+    background-color: #ffffff;
+  }
+  
+  td div {
+    font-size: 0.9rem;
+    color: #374151;
+  }
+  
+  /* Book Now button */
+  .book-now-btn {
+    background-color: #2563eb;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    margin-top: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+    width: 100%; /* Make button width consistent */
+  }
+  
+  .book-now-btn:hover {
+    background-color: #1e40af;
+  }
+  
+  /* Booking Form Overlay */
+  .booking-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .booking-form {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 350px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.3s ease;
+  }
+  
+  /* Slide-in animation */
+  @keyframes slideIn {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Form Groups */
+  .form-group {
+    margin-bottom: 12px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #374151;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+  }
+  
+  .form-group input:focus {
+    border-color: #2563eb;
+    outline: none;
+  }
+  
+  /* Form Action Buttons */
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .submit-btn,
+  .cancel-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .submit-btn {
+    background-color: #22c55e;
+    color: white;
+    transition: background-color 0.2s ease;
+  }
+  
+  .submit-btn:hover {
+    background-color: #16a34a;
+  }
+  
+  .cancel-btn {
+    background-color: #ef4444;
+    color: white;
+    transition: background-color 0.2s ease;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #dc2626;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .top-section {
+      grid-template-columns: 1fr;
+    }
+  
+    .bottom-section {
+      grid-template-columns: 1fr;
+    }
+  
+    .classroom-image {
+      height: 200px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .classroom-container {
+      padding: 1rem;
+    }
+  
+    .room-title {
+      font-size: 1.5rem;
+    }
+  
+    .room-description {
+      font-size: 1rem;
+    }
+  
+    .booking-form {
+      width: 90%;
+    }
+  
+    .submit-btn,
+    .cancel-btn {
+      padding: 6px 12px;
+    }
+  }
+  
+  

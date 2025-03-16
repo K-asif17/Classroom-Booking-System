@@ -1,0 +1,123 @@
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-container {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+  }
+  
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .input-group {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .error-text {
+    color: #ff0000;
+    margin-bottom: 1rem;
+  }
+  
+  /* Dropdowns Side by Side */
+  .dropdown-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .dropdown-group select {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    color: #333;
+    outline: none;
+  }
+  
+  .dropdown-group select:focus {
+    border-color: #ff8c00;
+  }
+  
+  .modal-btn, .google-btn {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modal-btn {
+    background-color: #ff8c00;
+  }
+  
+  .modal-btn:hover {
+    background-color: #ff4500;
+  }
+  
+  .google-btn {
+    background-color: #4285f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .google-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+  }
+  
+  .switch-option {
+    text-align: center;
+    font-size: 0.875rem;
+    color: #555;
+  }
+  
+  .link-btn {
+    color: #ff8c00;
+    cursor: pointer;
+  }
+  
+  .link-btn:hover {
+    text-decoration: underline;
+  }
+  .success-card {
+    background-color: #f0f8ff;
+    border: 1px solid #add8e6;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.success-card p {
+    margin-bottom: 10px;
+    font-size: 16px;
+}

@@ -1,0 +1,138 @@
+.signup-request-container {
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+  }
+  
+  .signup-request-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .batch-block {
+    margin-bottom: 30px;
+  }
+  
+  .batch-block h3 {
+    margin-left: 10px;
+    color: #444;
+  }
+  
+  .request-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 10px 0;
+  }
+  
+  .request-card-horizontal {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 16px;
+    width: 280px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+  }
+  
+  .request-card-horizontal:hover {
+    transform: scale(1.02);
+  }
+  
+  .request-card-horizontal p {
+    margin: 6px 0;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .request-actions-horizontal {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+  }
+  
+  .approve-btn,
+  .reject-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .approve-btn {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .approve-btn:hover {
+    background-color: #218838;
+  }
+  
+  .reject-btn {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .reject-btn:hover {
+    background-color: #c82333;
+  }
+  .signup-request-container {
+    padding: 2rem;
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+  }
+  
+  .batch-block {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  .batch-title {
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    color: #333;
+  }
+  
+  .request-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .request-card-horizontal {
+    background: #f0f0f0;
+    padding: 1rem;
+    border-radius: 10px;
+    width: 300px;
+  }
+  
+  .request-actions-horizontal {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .approve-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .reject-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  

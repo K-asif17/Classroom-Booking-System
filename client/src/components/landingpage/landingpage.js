@@ -57,7 +57,7 @@ const LandingPage = () => {
             className="btn signup"
             onClick={() => setActiveModal('signup')}
           >
-            Sign Up
+            Sign<span>_</span>Up
           </button>
         </div>
       </div>

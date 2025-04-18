@@ -1,3 +1,4 @@
+//bookingtable.js
 import React from "react";
 
 const BookingTable = ({ title, bookings }) => {

@@ -9,7 +9,9 @@ const SignupPage = ({ onNavigate }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [year, setYear] = useState('');
   const [section, setSection] = useState('');
-  const [signupSuccess, setSignupSuccess] = useState(false); // New state
+  const [phone, setPhone] = useState(''); // Add state for phone number
+  const [signupSuccess, setSignupSuccess] = useState(false);
+  const [phoneError, setPhoneError] = useState(''); // Add state for phone error
 
   const validateEmail = (value) => {
     setEmail(value);
@@ -20,9 +22,20 @@ const SignupPage = ({ onNavigate }) => {
     }
   };
 
-  const handleSignup = (e) => {
+  const validatePhone = (value) => {
+    // Simple validation: check if phone number is 10 digits long
+    if (!/^\d{10}$/.test(value)) {
+      setPhoneError('Please enter a valid 10-digit phone number');
+    } else {
+      setPhoneError('');
+    }
+    setPhone(value);
+  };
+
+  const handleSignup = async (e) => {
     e.preventDefault();
-    if (!name || !email || !password || !confirmPassword || !year || !section) {
+
+    if (!name || !email || !password || !confirmPassword || !year || !section || !phone) {
       alert('Please fill in all fields');
       return;
     }
@@ -34,13 +47,31 @@ const SignupPage = ({ onNavigate }) => {
       alert(emailError);
       return;
     }
+    if (phoneError) {
+      alert(phoneError);
+      return;
+    }
 
-    // Simulate sending the signup request and receiving a success response
-    // In a real application, this would involve an API call.
-    setTimeout(() => {
-      setSignupSuccess(true);  // set to true after a short delay (simulating API)
-    }, 500); // Simulate a 0.5 second API call
+    try {
+      const response = await fetch('http://localhost:5000/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password, year, section, phone }),
+      });
 
+      const data = await response.json();
+      if (data.success) {
+        alert('Signup request sent for admin approval. You will receive an email once approved.');
+        setSignupSuccess(true);
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      alert('An error occurred during signup.');
+      console.error(error);
+    }
   };
 
   return (
@@ -50,10 +81,12 @@ const SignupPage = ({ onNavigate }) => {
           ×
         </button>
 
-        {signupSuccess ? ( // Conditionally render success message OR signup form
+        {signupSuccess ? (
           <div className="success-card">
             <p>Request sent for verification. After admin approval, an email will be sent to your mail.</p>
-            <button onClick={() => onNavigate('login')} className="modal-btn">Go to Login</button>  {/* Button to redirect */}
+            <button onClick={() => onNavigate('login')} className="modal-btn">
+              Go to Login
+            </button>
           </div>
         ) : (
           <>
@@ -73,6 +106,7 @@ const SignupPage = ({ onNavigate }) => {
                   required
                 />
               </div>
+
               {/* Year and Section */}
               <div className="dropdown-group">
                 <select
@@ -103,6 +137,20 @@ const SignupPage = ({ onNavigate }) => {
                 </select>
               </div>
 
+              {/* Phone */}
+              <div className="input-group">
+                <i className="bi bi-phone-fill input-icon"></i>
+                <input
+                  type="text"
+                  value={phone}
+                  onChange={(e) => validatePhone(e.target.value)}
+                  className="form-control"
+                  placeholder="Enter your phone number"
+                  required
+                />
+                {phoneError && <span className="error-text">{phoneError}</span>}
+              </div>
+
               {/* Email */}
               <div className="input-group">
                 <i className="bi bi-envelope-fill input-icon"></i>
@@ -111,55 +159,45 @@ const SignupPage = ({ onNavigate }) => {
                   value={email}
                   onChange={(e) => validateEmail(e.target.value)}
                   className="form-control"
-                  placeholder="your.email@rguktrkv.ac.in"
+                  placeholder="Enter your email"
                   required
                 />
+                {emailError && <span className="error-text">{emailError}</span>}
               </div>
-              {emailError && <p className="error-text">{emailError}</p>}
 
               {/* Password */}
               <div className="input-group">
-                <i className="bi bi-lock-fill input-icon"></i>
+                <i className="bi bi-key-fill input-icon"></i>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="form-control"
-                  placeholder="Create a password"
+                  placeholder="Enter your password"
                   required
                 />
               </div>
 
               {/* Confirm Password */}
               <div className="input-group">
-                <i className="bi bi-lock-fill input-icon"></i>
+                <i className="bi bi-key-fill input-icon"></i>
                 <input
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="form-control"
-                  placeholder="Confirm password"
+                  placeholder="Confirm your password"
                   required
                 />
               </div>
 
-              {/* Submit Button */}
-              <button type="submit" className="modal-btn">Create Account</button>
-
-              {/* Google Sign Up */}
-              <button className="google-btn" type="button">
-                <img src="google-icon.png" alt="Google Icon" className="google-icon" />
-                Sign up with Google
-              </button>
-
-              {/* Switch to Login */}
-              <p className="switch-option">
-                Already have an account?{' '}
-                <span onClick={() => onNavigate('login')} className="link-btn">
-                  Sign in
-                </span>
-              </p>
+              <button type="submit" className="modal-btn">Sign Up</button>
             </form>
+
+            {/* Login Redirect Link */}
+            <div className="login-redirect">
+              <p>Already have an account? <button onClick={() => onNavigate('login')} className="link-btn">Login</button></p>
+            </div>
           </>
         )}
       </div>

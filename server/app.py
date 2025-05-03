@@ -64,6 +64,19 @@ class AdminReply(db.Model):
     message = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
 
+class ClassroomBooking(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    classroom_name = db.Column(db.String(100), nullable=False)  # Name of the classroom
+    timing = db.Column(db.String(50), nullable=False)  # Timing of the booking
+    subject = db.Column(db.String(255), nullable=False)  # Subject for the booking
+    faculty = db.Column(db.String(100), nullable=False)  # Faculty name
+    cr_name = db.Column(db.String(100), nullable=False)  # CR name
+    day = db.Column(db.String(20), nullable=False)  # Day of the booking
+    timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())  # Booking creation timestamp
+
+    def __repr__(self):
+        return f"<ClassroomBooking {self.classroom_name} - {self.timing} by {self.cr_name}>"
+
 # Routes
 @app.route('/')
 def home():
@@ -313,6 +326,97 @@ def reply_to_issue():
         db.session.rollback()
         print("Error while replying:", str(e))
         return jsonify({'success': False, 'message': f'Error while submitting reply: {str(e)}'}), 500
+
+@app.route('/book-classroom/<day>', methods=['POST'])
+def book_classroom(day):
+    data = request.get_json()
+    classroom_name = data.get('classroom_name')
+    timing = data.get('timing')
+    subject = data.get('subject')
+    faculty = data.get('faculty')
+    user_email = data.get('cr_email')  # Email of the logged-in user
+
+    # Assign the day directly as 'today' or 'tomorrow'
+    booking_day = day.lower()
+    # Validate input
+    if not all([classroom_name, timing, subject, faculty, user_email, booking_day]):
+        return jsonify({'success': False, 'message': 'All fields are required, including day'}), 400
+
+    # Validate timing format (e.g., "8:00 to 9:00")
+    if not re.match(r'^\d{1,2}:\d{2} to \d{1,2}:\d{2}$', timing):
+        return jsonify({'success': False, 'message': 'Invalid timing format. Use "8:00 to 9:00"'}), 400
+    
+  
+    # Get CR name based on the logged-in user
+    cr = CR.query.filter_by(email=user_email).first()
+    if not cr:
+        return jsonify({'success': False, 'message': 'CR not found for the logged-in user'}), 404
+
+    cr_name = cr.name
+
+      # Filter bookings based on the day column and booking_day
+    existing_bookings = ClassroomBooking.query.filter_by(day=booking_day, timing=timing, classroom_name=classroom_name, cr_name=cr_name).first()
+    if existing_bookings:
+        return jsonify({'success': False, 'message': 'Classroom is already booked for this timing on the selected day'}), 400
+
+    # Create a new booking
+    new_booking = ClassroomBooking(
+        classroom_name=classroom_name,
+        timing=timing,
+        subject=subject,
+        faculty=faculty,
+        cr_name=cr_name,
+        day=booking_day  # Use the booking_day variable
+    )
+
+    try:
+        db.session.add(new_booking)
+        db.session.commit()
+        print(classroom_name)
+        return jsonify({
+                'success': True,
+                'message': 'Classroom booked successfully',
+                'total_bookings': ClassroomBooking.query.count(),
+                'all_bookings': [
+                {
+                    'classroom_name': booking.classroom_name,
+                    'timing': booking.timing,
+                    'subject': booking.subject,
+                    'faculty': booking.faculty,
+                    'cr_name': booking.cr_name,
+                    'day': booking.day
+                } for booking in ClassroomBooking.query.filter_by(classroom_name=classroom_name).all()
+                ]
+            }), 200
+    except Exception as e:
+        db.session.rollback()
+        print("Error while booking classroom:", str(e))
+        return jsonify({'success': False, 'message': 'An error occurred while booking the classroom'}), 500
+    
+@app.route('/get-bookings<classroom_name>', methods=['GET'])
+def get_bookings(classroom_name):
+    try:
+        # Fetch all bookings from the database
+        bookings = ClassroomBooking.query.filter_by(classroom_name=classroom_name).all()
+
+        # Format the bookings into a list of dictionaries
+        booking_data = [
+            {
+                'classroom_name': booking.classroom_name,
+                'timing': booking.timing,
+                'subject': booking.subject,
+                'faculty': booking.faculty,
+                'cr_name': booking.cr_name,
+                'day': booking.day,
+                'timestamp': booking.timestamp
+            }
+            for booking in bookings
+        ]
+
+        return jsonify({'success': True, 'bookings': booking_data}), 200
+    except Exception as e:
+        print("Error fetching bookings:", str(e))
+        return jsonify({'success': False, 'message': 'An error occurred while fetching bookings'}), 500
 
 
 

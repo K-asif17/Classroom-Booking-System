@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './login.css';
+import googleIcon from '../../assets/google-icon.png';
 
 const Login = ({ onClose, onNavigate }) => {
   const [email, setEmail] = useState('');
@@ -115,7 +116,7 @@ const Login = ({ onClose, onNavigate }) => {
             type="button"
             onClick={() => alert('Sign in with Google clicked')}
           >
-            <img src="/google-icon.png" alt="Google Icon" className="google-icon" />
+            <img src={googleIcon} alt="Google Icon" className="google-icon" />
             Sign in with Google
           </button>
 

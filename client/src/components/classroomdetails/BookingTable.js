@@ -8,6 +8,7 @@ const BookingTable = ({ title, bookings }) => {
       <table>
         <thead>
           <tr>
+            <th>Classroom Name</th>
             <th>Timing</th>
             <th>Subject</th>
             <th>Faculty</th>
@@ -15,18 +16,20 @@ const BookingTable = ({ title, bookings }) => {
           </tr>
         </thead>
         <tbody>
+          {console.log(bookings)}
           {bookings.length > 0 ? (
             bookings.map((booking, index) => (
               <tr key={index}>
+                <td>{booking.classroom_name}</td>
                 <td>{booking.timing}</td>
                 <td>{booking.subject}</td>
                 <td>{booking.faculty}</td>
-                <td>{booking.crName}</td>
+                <td>{booking.cr_name}</td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="4">No bookings yet</td>
+              <td colSpan="5">No bookings yet</td>
             </tr>
           )}
         </tbody>

@@ -1,8 +1,9 @@
 // ClassroomDetails.jsx
 import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import BookingTable from "./BookingTable";
 import "../classroomdetails/ClassroomDetails.css";
+import { useEffect } from "react";
 
 const classrooms = {
   GF1: {
@@ -91,6 +92,11 @@ const ClassroomDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // Extract crEmail from query parameters
+  const location = useLocation(); // Use the hook to get the location object
+  const queryParams = new URLSearchParams(location.search);
+  const crEmail = queryParams.get("crEmail");
+
   const room = classrooms[id];
 
   const [showForm, setShowForm] = useState(false);
@@ -106,10 +112,33 @@ const ClassroomDetails = () => {
     faculty: "",
   });
 
-  if (!room) {
-    navigate("/");
-    return null;
-  }
+
+  // Fetch all bookings when the page loads
+  useEffect(() => {
+    if (!room) {
+      navigate("/");
+      return null;
+    }
+    const fetchBookings = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/get-bookings${room.name}`);
+        const result = await response.json();
+
+        if (response.ok) {
+          const today = result.bookings.filter((booking) => booking.day === "today");
+          const tomorrow = result.bookings.filter((booking) => booking.day === "tomorrow");
+          setTodayBookings(today);
+          setTomorrowBookings(tomorrow);
+        } else {
+          console.error("Failed to fetch bookings:", result.message);
+        }
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+      }
+    };
+
+    fetchBookings();
+  }, []);
 
   // Handle input change in form
   const handleChange = (e) => {
@@ -118,29 +147,60 @@ const ClassroomDetails = () => {
   };
 
   // Handle booking form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const newBooking = {
+      classroom_name: room.name,
       timing: formData.timing,
       subject: formData.subject,
       faculty: formData.faculty,
+      cr_email: crEmail, // Use the CR email here
     };
-
-    if (selectedDay === "Today") {
-      setTodayBookings((prev) => [...prev, newBooking]);
-    } else if (selectedDay === "Tomorrow") {
-      setTomorrowBookings((prev) => [...prev, newBooking]);
+  
+    console.log("Booking Data:", newBooking); // Debugging
+  
+    // Validate timing format
+    const timingRegex = /^\d{1,2}:\d{2} to \d{1,2}:\d{2}$/;
+    if (!timingRegex.test(newBooking.timing)) {
+      alert("Invalid timing format. Use '8:00 to 9:00'.");
+      return;
     }
-
-    alert(`Classroom booked successfully for ${formData.subject}`);
-
-    setShowForm(false);
-    setFormData({
-      timing: "",
-      subject: "",
-      faculty: "",
-    });
+  
+    try {
+      const response = await fetch(`http://localhost:5000/book-classroom/${selectedDay}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newBooking),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        alert(result.message);
+        
+        setShowForm(false);
+        if (result.all_bookings) {
+          const today = result.all_bookings.filter(booking => booking.day === "today");
+          const tomorrow = result.all_bookings.filter(booking => booking.day === "tomorrow");
+          setTodayBookings(today);
+          setTomorrowBookings(tomorrow);
+        }
+        setFormData({
+          timing: "",
+          subject: "",
+          faculty: "",
+        });
+        
+      } else {
+        alert(result.message || "Failed to book the classroom.");
+      }
+    } catch (error) {
+      console.error("Error booking classroom:", error);
+      alert("An error occurred while booking the classroom.");
+    }
   };
 
   const handleBookNow = (day) => {
@@ -202,7 +262,7 @@ const ClassroomDetails = () => {
 
         <div className="booking-table-container">
           <BookingTable title="Tomorrow's Bookings" bookings={tomorrowBookings} />
-          <button className="book-now-btn" onClick={() => handleBookNow("Today")}>
+          <button className="book-now-btn" onClick={() => handleBookNow("Tomorrow")}>
   Book Now
 </button>
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './ClassBooking.css';
+import logo from '../../assets/WhatsApp Image 2025-02-20 at 9.52.04 PM-modified.png';
 
 const rooms = [{
   id: 'GF1',
@@ -173,7 +174,7 @@ const ClassroomBooking = () => {
       <nav className="navbar">
         <div className="navbar-left">
           <img
-            src="WhatsApp Image 2025-02-20 at 9.52.04 PM-modified.png"
+            src={logo}
             alt="Logo"
             className="navbar-logo"
           />
@@ -229,7 +230,7 @@ const ClassroomBooking = () => {
                   </div>
                 </div>
 
-                <Link to={`/classroomdetails/${room.id}`} className="book-button">
+                <Link to={`/classroomdetails/${room.id}?crEmail=${crEmail}`} className="book-button">
                   Book Classroom
                 </Link>
               </div>

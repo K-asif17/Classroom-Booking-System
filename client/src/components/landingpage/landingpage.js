@@ -1,10 +1,9 @@
+import background from '../../assets/background.jpeg';
+import logo from '../../assets/WhatsApp Image 2025-02-20 at 9.52.04 PM-modified.png';
 import React, { useEffect, useState } from 'react';
 import './landingpage.css';
 import Login from '../Login/login.js';
 import SignUp from '../Signup/signup.js';
-
-const background = process.env.PUBLIC_URL + '/background.jpeg';
-const logo = process.env.PUBLIC_URL + '/WhatsApp Image 2025-02-20 at 9.52.04 PM-modified.png';
 
 const LandingPage = () => {
   const [showText, setShowText] = useState(false);
